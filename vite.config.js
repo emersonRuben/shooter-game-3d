@@ -3,7 +3,7 @@ import { defineConfig } from 'vite';
 export default defineConfig({
   root: './',
   publicDir: 'public',
-  base: './',  // Para desarrollo local y preview. Cambia a '/nombre-repositorio/' para GitHub Pages
+  base: '/shooter-game-3d/',  // Configurado para GitHub Pages
   build: {
     outDir: 'dist',
     assetsDir: 'assets',
