@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menú Principal - Shooter</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap" rel="stylesheet">
+    <style>  
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            background: url('images/inicio.jpg') no-repeat center center fixed;
+            background-size: cover;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Orbitron', Arial, sans-serif;
+        }
+        .menu-container {
+            background: rgba(10,10,20,0.85);
+            padding: 40px 60px;
+            border-radius: 20px;
+            box-shadow: 0 0 40px #00ffe7cc, 0 0 0 4px #222 inset;
+            text-align: center;
+            border: 2px solid #00ffe7;
+        }
+        h1 {
+            color: #00ffe7;
+            margin-bottom: 1.5em;
+            font-size: 2.7em;
+            letter-spacing: 3px;
+            text-shadow: 0 0 10px #00ffe7, 0 0 30px #00ffe7aa;
+        }
+        .menu-btn {
+            display: block;
+            width: 260px;
+            margin: 1.2em auto;
+            padding: 1.1em 0;
+            font-size: 1.3em;
+            font-family: 'Orbitron', Arial, sans-serif;
+            background: linear-gradient(90deg, #23272b 60%, #00ffe7 100%);
+            color: #fff;
+            border: 3px solid #00ffe7;
+            border-radius: 12px;
+            box-shadow: 0 0 18px #00ffe799, 0 2px 8px #000a;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: background 0.2s, transform 0.15s, box-shadow 0.2s, color 0.2s;
+            position: relative;
+            overflow: hidden;
+        }
+        .menu-btn:before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            border-radius: 12px;
+            box-shadow: 0 0 30px 8px #00ffe7cc;
+            opacity: 0;
+            transition: opacity 0.2s;
+            pointer-events: none;
+        }
+        .menu-btn:hover:before {
+            opacity: 0.5;
+        }
+        .menu-btn:hover {
+            background: linear-gradient(90deg, #00ffe7 0%, #23272b 100%);
+            color: #23272b;
+            transform: scale(1.06);
+            box-shadow: 0 0 30px #00ffe7cc, 0 2px 16px #000c;
+        }
+        .menu-btn:active {
+            background: #111;
+            color: #00ffe7;
+            box-shadow: 0 0 10px #00ffe7cc, 0 1px 4px #000a;
+            transform: scale(0.98);
+        }
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0,0,0,0.7);
+            align-items: center;
+            justify-content: center;
+        }
+        .modal-content {
+            background: #181c22;
+            color: #00ffe7;
+            padding: 2em 3em;
+            border-radius: 15px;
+            text-align: center;
+            min-width: 300px;
+            max-width: 90vw;
+            border: 2px solid #00ffe7;
+            box-shadow: 0 0 30px #00ffe7cc;
+            font-family: 'Orbitron', Arial, sans-serif;
+        }
+        .close-btn {
+            background: #e53935;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 0.5em 1.5em;
+            font-size: 1em;
+            margin-top: 1.5em;
+            cursor: pointer;
+            transition: background 0.2s;
+            font-family: 'Orbitron', Arial, sans-serif;
+        }
+        .close-btn:hover {
+            background: #b71c1c;
+        }
+        .slider {
+            width: 80%;
+            margin: 1em auto;
+        }
+        label {
+            font-size: 1.1em;
+        }
+        ::selection {
+            background: #00ffe7;
+            color: #181c22;
+        }
+    </style>
+</head>
+<body>
+    <div class="menu-container">
+        <h1>COUNTER-INFESTACION</h1>
+        <button class="menu-btn" onclick="iniciarJuego()">Iniciar</button>
+        <button class="menu-btn" onclick="abrirModal('opcionesModal')">Opciones</button>
+        <button class="menu-btn" onclick="abrirModal('creditosModal')">Créditos</button>
+        <button class="menu-btn" onclick="salirJuego()">Salir</button>
+    </div>
+
+    <!-- Modal Opciones -->
+    <div id="opcionesModal" class="modal">
+        <div class="modal-content">
+            <h2>Opciones</h2>
+            <div>
+                <label for="volumen">Volumen:</label><br>
+                <input type="range" id="volumen" class="slider" min="0" max="100" value="80" oninput="mostrarVolumen.value = volumen.value">
+                <output id="mostrarVolumen">80</output>% 
+            </div>
+            <div style="margin-top:1.5em;">
+                <button class="menu-btn" onclick="toggleFullscreen()">Pantalla Completa</button>
+            </div>
+            <button class="close-btn" onclick="cerrarModal('opcionesModal')">Cerrar</button>
+        </div>
+    </div>
+
+    <!-- Modal Créditos -->
+    <div id="creditosModal" class="modal">
+        <div class="modal-content">
+            <h2>Créditos</h2>
+            <p>Juego realizado por: <br>-QUISPE RODRIGUEZ HENRRY ELIAS</p><br>-HUACASI CCAMA EMERSON RUBEN</p><br>-CALLATA CALLATA DONY IVAN.</p><br>¡Gracias por jugar!</p>
+            <button class="close-btn" onclick="cerrarModal('creditosModal')">Cerrar</button>
+        </div>
+    </div>
+
+    <script>
+        // Declarar variables de audio
+        let audioContext, audioElement, audioSource, gainNode;
+
+        // Función para iniciar el juego y reproducir la música
+        function iniciarJuego() {
+            // Inicializa el sistema de audio y la música de fondo
+            audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            audioElement = new Audio('fondo.mp3');  // Ruta a tu archivo de música en la carpeta public
+            audioSource = audioContext.createMediaElementSource(audioElement);
+            gainNode = audioContext.createGain();
+
+            audioSource.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+
+            // Control de volumen
+            gainNode.gain.value = 0.9;  // Volumen inicial al 90%
+
+            // Reproducir la música en bucle
+            audioElement.loop = true;
+            audioElement.play();
+
+            // Redirigir al juego
+            window.location.href = 'juego.html';  // Redirigir al juego
+        }
+
+        // Funciones del menú
+        function abrirModal(id) {
+            document.getElementById(id).style.display = 'flex';
+        }
+
+        function cerrarModal(id) {
+            document.getElementById(id).style.display = 'none';
+        }
+
+        function salirJuego() {
+            alert('Gracias por jugar. Puedes cerrar la pestaña para salir.');
+        }
+
+        // Pantalla completa
+        function toggleFullscreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen();
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                }
+            }
+        }
+
+        // Cerrar modal al hacer click fuera del contenido
+        window.onclick = function(event) {
+            const modals = [document.getElementById('opcionesModal'), document.getElementById('creditosModal')];
+            modals.forEach(modal => {
+                if (event.target === modal) {
+                    modal.style.display = 'none';
+                }
+            });
+        }
+
+        // Ejecutar la música automáticamente cuando la página cargue
+        document.addEventListener('DOMContentLoaded', function () {
+            // Inicializa la música de fondo
+            audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            audioElement = new Audio('fondo.mp3');
+            audioSource = audioContext.createMediaElementSource(audioElement);
+            gainNode = audioContext.createGain();
+
+            audioSource.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+
+            // Control de volumen
+            gainNode.gain.value = 0.9; // Volumen 90%
+
+            // Reproducir la música en bucle
+            audioElement.loop = true;
+            audioElement.play();
+        });
+    </script>
+</body>
+</html>
